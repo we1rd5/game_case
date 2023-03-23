@@ -1,0 +1,7 @@
+Регистрация
+<form method = "post" action="signup_post">
+    {% csrf_token %}
+    Login: <input name="login">
+    Password: <input name="password" type="password">
+    <input type="submit" value="Send">
+</form>
