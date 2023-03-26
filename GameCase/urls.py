@@ -21,5 +21,7 @@ urlpatterns = [
     path('signup', views.signup),
     path('signup_post', views.signup_post),
     path('login', views.login),
-    path('login_post', views.login_post)
+    path('login_post', views.login_post),
+    path('profile', views.profile),
+    path('profile/<str:name>', views.profile)
 ]
