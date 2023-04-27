@@ -1,0 +1,7 @@
+<form method="post" action="load_game" enctype="multipart/form-data">
+    {% csrf_token %}
+    Name: <input type="text" name="name">
+    Description: <input type="text" name="desc">
+    Photos: <input type="file" multiple accept="image" name="photos">
+    <input type="submit" value="Send">
+</form>

@@ -19,9 +19,10 @@ from Portfolio import views
 urlpatterns = [
     path('', views.main_page),
     path('signup', views.signup),
-    path('signup_post', views.signup_post),
     path('login', views.login),
-    path('login_post', views.login_post),
     path('profile', views.profile),
-    path('profile/<str:name>', views.profile)
+    path('profile/<str:name>', views.profile),
+    path('load_game', views.load_game),
+    path('game', views.game),
+    path('game/<int:id>', views.game)
 ]
