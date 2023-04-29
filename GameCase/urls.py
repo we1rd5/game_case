@@ -21,8 +21,9 @@ urlpatterns = [
     path('signup', views.signup),
     path('login', views.login),
     path('profile', views.profile),
-    path('profile/<str:name>', views.profile),
+    path('profile/<str:person>', views.profile),
     path('load_game', views.load_game),
     path('game', views.game),
-    path('game/<int:id>', views.game)
+    path('game/<int:id>', views.game),
+    path('add_user_description', views.add_user_desc)
 ]

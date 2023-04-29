@@ -3,6 +3,9 @@ from Portfolio.models import User, Game, UserDesc, GamePhoto
 import hashlib
 
 
+DEFAULT_USER_PHOTO = r"user_photos\default.png"
+
+
 def main_page(request):
     return render(request, "main.html")
 
@@ -16,6 +19,7 @@ def signup(request):
         password = request.POST.get("password", "UNDEFINED_PASSWORD")
         repeat_password = request.POST.get("repeat_password", "UNDEFINED_PASSWORD")
         user = User(login=login, email=email, password=hashlib.sha256(bytes(password, encoding="utf-8")).hexdigest())
+        desc = UserDesc(user=user, name="Аноним", description="", about="", photo=DEFAULT_USER_PHOTO)
         if login == "UNDEFINED_LOGIN" or login == "":
             return HttpResponse("login error", status=422)
         if len(login) > 20:
@@ -31,6 +35,7 @@ def signup(request):
         if User.objects.filter(email=email):
             return HttpResponse("email already exists", status=422)
         user.save()
+        desc.save()
         response = HttpResponseRedirect("/profile")
         response.set_cookie("GameCaseLogin", login)
         response.set_cookie("GameCasePasswordHash", hashlib.sha256(bytes(password, encoding="utf-8")).hexdigest())
@@ -62,24 +67,66 @@ def login(request):
         return HttpResponse(f"incorrect password {hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest()}", status=422)
 
 
-def profile(request, name=None):
-    if name is None or name == request.COOKIES.get("GameCaseLogin"):
+def profile(request, person=None):
+    if person is None or person == request.COOKIES.get("GameCaseLogin"):
         login = request.COOKIES.get("GameCaseLogin")
         if login is not None:
             password_hash = request.COOKIES.get("GameCasePasswordHash")
             if password_hash == User.objects.get(login=login).password:
-                return HttpResponse(login + " " + "your account")
+                user = User.objects.get(login=login)
+                user_desc = UserDesc.objects.get(user=user)
+                return render(request, "profile.html", context={
+                    "login": user.login,
+                    "name": user_desc.name,
+                    "desc": user_desc.description,
+                    "about": user_desc.about,
+                    "photo": user_desc.photo
+                })
         else:
             return HttpResponseRedirect("/login", status=303)
-    else:
-        return HttpResponse(name)
+    if not User.objects.filter(login=person).exists():
+        return HttpResponseRedirect("/")
+    user = User.objects.get(login=person)
+    user_desc = UserDesc.objects.get(user=user)
+    return render(request, "profile.html", context={
+        "login": user.login,
+        "name": user_desc.name,
+        "desc": user_desc.description,
+        "about": user_desc.about,
+        "photo": user_desc.photo
+    })
+
+
+def add_user_desc(request):
+    if request.method == "GET":
+        return render(request, "add_desc.html")
+    if request.method == "POST":
+        login = request.COOKIES.get("GameCaseLogin")
+        if login is None:
+            return HttpResponseRedirect("/login")
+        password_hash = request.COOKIES.get("GameCasePasswordHash")
+        if password_hash == User.objects.get(login=login).password:
+            desc = UserDesc.objects.get(user=User.objects.get(login=login))
+            desc.name = request.POST.get("name", "Аноним")
+            desc.description = request.POST.get("description", "")
+            desc.about = request.POST.get("about", "")
+            desc.photo = request.POST.get("photo", DEFAULT_USER_PHOTO)
+            desc.save()
+            return HttpResponseRedirect("/profile")
+        return HttpResponse("Unexpected error. Clean cookies and try again.")
 
 
 def game(request, id=0):
     if id == 0 or not Game.objects.filter(id=id).exists():
         return HttpResponseRedirect('/')
     game = Game.objects.get(id=id)
-    return HttpResponse(f"{game.name}, {game.description}, {game.author.login}")
+    photos = GamePhoto.objects.filter(game=game).all()
+    return render(request, "game.html", context={
+        "name": game.name,
+        "desc": game.description,
+        "author": game.author.login,
+        "photos": photos
+    })
 
 
 def load_game(request):

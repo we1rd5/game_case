@@ -10,7 +10,6 @@ class User(models.Model):
 class UserDesc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
     name = models.CharField(max_length=64)
-    surname = models.CharField(max_length=64)
     description = models.CharField(max_length=95)
     about = models.CharField(max_length=350)
     photo = models.ImageField(upload_to="user_photos")
