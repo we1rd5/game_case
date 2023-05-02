@@ -1,4 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+
+from GameCase import settings
 from Portfolio.models import User, Game, UserDesc, GamePhoto
 import hashlib
 
@@ -121,10 +123,12 @@ def game(request, id=0):
         return HttpResponseRedirect('/')
     game = Game.objects.get(id=id)
     photos = GamePhoto.objects.filter(game=game).all()
+    print(settings.MEDIA_URL, photos[0].photo)
     return render(request, "game.html", context={
         "name": game.name,
         "desc": game.description,
         "author": game.author.login,
+        "media_url": settings.MEDIA_URL,
         "photos": photos
     })
 
