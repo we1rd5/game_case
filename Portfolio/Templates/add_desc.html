@@ -1,0 +1,8 @@
+<form method="post" action="add_user_description" enctype="multipart/form-data">
+    {% csrf_token %}
+    Имя: <input type="text" name="name">
+    Описание профиля: <input type="text" name="description">
+    О себе: <input type="text" name="about">
+    Фото: <input type="file" accept="image" name="photo">
+    <input type="submit" value="Send">
+</form>

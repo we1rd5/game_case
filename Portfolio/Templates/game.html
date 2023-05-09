@@ -1,1 +1,8 @@
-Игра
+{{ id }}
+<p>{{ name }}</p>
+<p>{{ desc }}</p>
+<p>{{ author }}</p>
+{% for photo in photos %}
+<p><img src="{{ media_url }}{{ photo.photo }}"></p>
+<a href="/delete?game_id={{ id }}">Удалить</a>
+{% endfor %}

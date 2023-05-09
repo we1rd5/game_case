@@ -1,0 +1,7 @@
+<form method="post" action="load_game" enctype="multipart/form-data">
+    {% csrf_token %}
+    Название: <input type="text" name="name">
+    Описание: <input type="text" name="desc">
+    Картинки: <input type="file" multiple accept="image" name="photos">
+    <input type="submit" value="Send">
+</form>

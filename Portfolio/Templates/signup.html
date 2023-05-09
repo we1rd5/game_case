@@ -1,7 +1,9 @@
 Регистрация
-<form method = "post" action="signup_post">
+<form method = "post" action="signup">
     {% csrf_token %}
     Login: <input name="login">
+    Email: <input name="email">
     Password: <input name="password" type="password">
+    Repeat password: <input name="repeat_password" type="password">
     <input type="submit" value="Send">
 </form>
