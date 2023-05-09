@@ -167,3 +167,4 @@ def delete_game(request):
     except:
         return HttpResponse("Unexpected error")
     return HttpResponseRedirect("/profile")
+

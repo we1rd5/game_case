@@ -15,13 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+
+from GameCase import settings
 from Portfolio import views
 urlpatterns = [
     path('', views.main_page),
     path('signup', views.signup),
-    path('signup_post', views.signup_post),
     path('login', views.login),
-    path('login_post', views.login_post),
     path('profile', views.profile),
-    path('profile/<str:name>', views.profile)
+    path('profile/<str:person>', views.profile),
+    path('load_game', views.load_game),
+    path('game', views.game),
+    path('game/<int:id>', views.game),
+    path('add_user_description', views.add_user_desc)
 ]
+
+urlpatterns += static(f"game/{settings.MEDIA_URL}",
+                          document_root=settings.MEDIA_ROOT)
