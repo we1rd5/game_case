@@ -25,3 +25,9 @@ class Game(models.Model):
 class GamePhoto(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="game")
     photo = models.ImageField(upload_to=f"game_photos/")
+
+
+class Rate(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    user_login = models.CharField(max_length=20)
+    value = models.IntegerField()
