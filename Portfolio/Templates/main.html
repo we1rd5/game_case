@@ -1,2 +1,114 @@
-Главная страница
-<a href="/signup">Регистрация</a>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "styles.css" %}'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <title>GameCase</title>
+</head>
+<body>
+    <header>
+        <img class="logo" src='{% static "images/logo.png" %}' width=38px height=69px>
+        <div class="nav-menu">
+            <div class="nav-item"><a href="#">GameCase</a></div>
+            <div class="nav-item"><a href="#">О команде</a></div>
+            <div class="login"><a href="#">Войти</a></div>
+        </div>
+    </header>
+    <div class="title">
+        <div class="title-signs">
+            <h1>Поделись с миром своими играми</h1>
+            <p>Создай уникальное цифровое портфолио всего за 4 шага</p>
+            <a href="#"><div class="start-btn">Начать</div></a>
+        </div>
+        <img src='{% static "images/title.png" %}'>
+    </div>
+    <div class="steps">
+        <div class="step">
+            <h2>1</h2>
+            <h3>Зарегистрируйся</h3>
+            <img src='{% static "images/step1.png" %}'>
+        </div>
+        <div class="step">
+            <h2>2</h2>
+            <h3>Расскажи о себе</h3>
+            <img src='{% static "images/step2.png" %}'>
+        </div>
+        <div class="step">
+            <h2>3</h2>
+            <h3>Опубликуй свои работы</h3>
+            <img src='{% static "images/step3.png" %}'>
+        </div>
+        <div class="step">
+            <h2>4</h2>
+            <h3>Получи обратную связь</h3>
+            <img src='{% static "images/step4.png" %}'>
+        </div>
+    </div>
+    <div class="pros">
+        <div class="pros-title">
+            <h1>Заявить о себе проще, чем кажется</h1>
+        </div>
+        <div class="desc">
+            <p>GameCase - цифровое портфолио, в котором вы можете собирать и опубликовывать свои игровые проекты</p>
+        </div>
+    </div>
+    <div class="pros-table">
+        <div class="pros-card">
+            <img src='{% static "images/money.png" %}'>
+            <h3>Доступность</h3>
+            <p>Никаких платных подписок</p>
+        </div>
+        <div class="pros-card">
+            <img src='{% static "images/open.png" %}'>
+            <h3>Открытость</h3>
+            <p>Ваши работы увидит целевая аудитория</p>
+        </div>
+        <div class="pros-card">
+            <img src='{% static "images/rating.png" %}'>
+            <h3>Отклик</h3>
+            <p>Рейтинговая система будет рекомендовать ваши игры другим пользователям</p>
+        </div>
+        <div class="pros-card">
+            <img src='{% static "images/easy.png" %}'>
+            <h3>Простота</h3>
+            <p>Храните свои работы в одном месте</p>
+        </div>
+    </div>
+    <div class="transition">
+    </div>
+    <div class="reg-form">
+        <form method="POST" action="signup">
+            {% csrf_token %}
+            <h2>Регистрация</h2>
+            <input type=text placeholder="Логин" name="login">
+            <input type=text placeholder="Email" name="email">
+            <input type=password placeholder="Пароль" name="password">
+            <input type=password placeholder="Повторите пароль" name="repeat_password">
+            <input type=submit value="Зарегистрироваться">
+        </form>
+    </div>
+    <footer>
+        <div class="left">
+            <h3>Балтика</h3>
+            <p>help@gmail.com</p>
+        </div>
+        <div class="right">
+            <a href="#">Главная</a>
+            <a href="#">О нас</a>
+            <a href="#">Войти</a>
+        </div>
+    </footer>
+</body>
+</html>

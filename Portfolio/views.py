@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 
 from GameCase import settings
-from Portfolio.models import User, Game, UserDesc, GamePhoto
+from Portfolio.models import User, Game, UserDesc, GamePhoto, Rate
 import hashlib
 
 
@@ -167,4 +167,27 @@ def delete_game(request):
     except:
         return HttpResponse("Unexpected error")
     return HttpResponseRedirect("/profile")
+
+
+def rate_game(request):
+    id = request.GET.get("game_id")
+    rate = request.GET.get("rate")
+    game = Game.objects.get(id=int(id))
+    if game.author.login == request.COOKIES.get("GameCaseLogin"):
+        return HttpResponseRedirect(f"/game/{id}")
+    if Rate.objects.filter(user_login=request.COOKIES.get("GameCaseLogin"), game=game).exists():
+        rate_model = Rate.objects.get(user_login=request.COOKIES.get("GameCaseLogin"), game=game)
+        game.rating -= rate_model.value
+        print("оценка есть")
+    else:
+        rate_model = Rate(game=game, user_login=request.COOKIES.get("GameCaseLogin"), value=0)
+    if rate == "like":
+        game.rating += 1
+        rate_model.value = 1
+    else:
+        game.rating -= 1
+        rate_model.value = -1
+    rate_model.save()
+    game.save()
+    return HttpResponseRedirect(f"/game/{id}")
 
