@@ -1,0 +1,165 @@
+body {
+    background-color: #000000;
+    margin: 0px;
+}
+
+header {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 10px;
+    height: 120px;
+    border-bottom: 2px solid #FFFFFF;
+}
+
+.logo {
+    margin-top: 20px;
+    margin-right: 20px;
+    float: left;
+}
+
+.nav-menu {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.nav-item {
+    display: inline-block;
+    margin-right: 30px;
+    padding-top: 45px;
+    padding-bottom: 45px;
+}
+
+
+
+.nav-item a:hover {
+    color: #FE2727;
+}
+
+.login a:hover {
+    color: #FE2727;
+}
+
+.nav-item a {
+    font-family: Montserrat;
+    font-weight: 300;
+    font-size: 30px;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.nav-item-active a {
+    color:#FE2727;
+}
+
+.login {
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.login a {
+    font-family: Montserrat;
+    font-weight: 300;
+    font-size: 30px;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.container {
+    margin-left: 165px;
+    margin-right: 165px;
+}
+
+.title {
+    margin-top: 113px;
+    color: #FFFFFF;
+}
+
+.title h1 {
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 96px;
+    font-style: bold;
+}
+
+.desc {
+    font-family: Montserrat;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 100px;
+}
+
+.desc p {
+    margin-bottom: 23px;
+}
+
+.team {
+    color: #FFFFFF;
+    margin-top: 50px;
+}
+
+.team ul {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.team li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    margin-bottom: 50px;
+}
+
+.name {
+    font-family: Montserrat;
+    font-size: 48px;
+    font-weight: 600;
+}
+
+.role {
+    font-family: Montserrat;
+    font-size: 36px;
+    font-weight: 400;
+    color: #FE2727;
+}
+
+footer {
+    background-color: #4E4E4E;
+    margin-top: 100px;
+    padding-top: 51px;
+    padding-bottom: 51px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.left h3{
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.left p {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.right a {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
