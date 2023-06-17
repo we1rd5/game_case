@@ -1,15 +1,18 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-
+import pathlib
 from GameCase import settings
 from Portfolio.models import User, Game, UserDesc, GamePhoto, Rate
 import hashlib
 
 
-DEFAULT_USER_PHOTO = r"user_photos\default.png"
+DEFAULT_USER_PHOTO = str(settings.BASE_DIR / r"user_photos\default.png")
 
 
 def main_page(request):
     return render(request, "main.html")
+
+def team_page(request):
+    return render(request, "team.html")
 
 
 def signup(request):
@@ -69,6 +72,16 @@ def login(request):
         return HttpResponse(f"incorrect password {hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest()}", status=422)
 
 
+def logout(request):
+    login = request.COOKIES.get("GameCaseLogin")
+    if login is not None:
+        response = HttpResponseRedirect("/")
+        response.delete_cookie("GameCaseLogin")
+        response.delete_cookie("GameCasePasswordHash")
+        return response
+    return HttpResponseRedirect("/login")
+
+
 def profile(request, person=None):
     if person is None or person == request.COOKIES.get("GameCaseLogin"):
         login = request.COOKIES.get("GameCaseLogin")
@@ -101,7 +114,7 @@ def profile(request, person=None):
 
 def add_user_desc(request):
     if request.method == "GET":
-        return render(request, "add_desc.html")
+        return render(request, "user_desc.html")
     if request.method == "POST":
         login = request.COOKIES.get("GameCaseLogin")
         if login is None:
@@ -109,10 +122,10 @@ def add_user_desc(request):
         password_hash = request.COOKIES.get("GameCasePasswordHash")
         if password_hash == User.objects.get(login=login).password:
             desc = UserDesc.objects.get(user=User.objects.get(login=login))
-            desc.name = request.POST.get("name", "Аноним")
-            desc.description = request.POST.get("description", "")
-            desc.about = request.POST.get("about", "")
-            desc.photo = request.POST.get("photo", DEFAULT_USER_PHOTO)
+            desc.name = request.POST.get("name") if request.POST.get("name") != "" else "Аноним"
+            desc.description = request.POST.get("desc")
+            desc.about = request.POST.get("about")
+            desc.photo = request.POST.get("photo") if request.POST.get("photo") != "" else "static/default.png"
             desc.save()
             return HttpResponseRedirect("/profile")
         return HttpResponse("Unexpected error. Clean cookies and try again.")
@@ -178,7 +191,6 @@ def rate_game(request):
     if Rate.objects.filter(user_login=request.COOKIES.get("GameCaseLogin"), game=game).exists():
         rate_model = Rate.objects.get(user_login=request.COOKIES.get("GameCaseLogin"), game=game)
         game.rating -= rate_model.value
-        print("оценка есть")
     else:
         rate_model = Rate(game=game, user_login=request.COOKIES.get("GameCaseLogin"), value=0)
     if rate == "like":

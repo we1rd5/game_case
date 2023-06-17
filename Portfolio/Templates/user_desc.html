@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href='{% static "game_load_styles.css" %}'>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "user_desc_styles.css" %}'>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
@@ -15,8 +15,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-        <title>Document</title>
-    </head>
+    <title>Document</title>
+</head>
 <body>
     <header>
         <img class="logo" src='{% static "images/logo.png" %}' width=38px height=69px>
@@ -26,22 +26,27 @@
             <div class="login"><a href="/login">Профиль</a></div>
         </div>
     </header>
-    <form method="POST" action="load_game" enctype="multipart/form-data">
+    <form method="POST" action="add_user_description" enctype="multipart/form-data">
     {% csrf_token %}
         <div class="field">
-            <h3>Название игры</h3>
+            <h3>Имя</h3>
             <input class="name" type="text" name="name">
         </div>
         <div class="field">
-            <h3>Описание игры:</h3>
+            <h3>Описание профиля:</h3>
             <textarea name="desc" maxlength="112">
+            </textarea>
+        </div>
+        <div class="field">
+            <h3>О себе:</h3>
+            <textarea name="about" maxlength="350">
             </textarea>
         </div>
         <div class="photo-field">
             <div class="field">
-                <h3>Фотографии</h3>
+                <h3>Фото профиля</h3>
                 <label class="input-photos">
-                    <input type="file" name="photos" multiple accept="images">		
+                    <input type="file" name="photo" accept="images">		
                     <span>Добавить</span>
                 </label>
             </div>
