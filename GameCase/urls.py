@@ -30,10 +30,14 @@ urlpatterns = [
     path('game/<int:id>', views.game),
     path('add_user_description', views.add_user_desc),
     path('delete', views.delete_game),
-    path('rate', views.rate_game)
+    path('rate', views.rate_game),
+    path('logout', views.logout),
+    path('team', views.team_page)
 ]
 
 urlpatterns += static(f"game/{settings.MEDIA_URL}",
                           document_root=settings.MEDIA_ROOT)
+
+
 
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
