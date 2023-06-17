@@ -55,7 +55,7 @@ ROOT_URLCONF = 'GameCase.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['/home/we1rd/Baltika/Portfolio/Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
