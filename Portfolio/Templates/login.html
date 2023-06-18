@@ -1,7 +1,34 @@
-Логин
-<form method = "post" action="login">
-    {% csrf_token %}
-    Login: <input name="login">
-    Password: <input name="password" type="password">
-    <input type="submit" value="Send">
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "login_styles.css" %}'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <title>GameCase</title>
+</head>
+<body>
+    <div class = "form">
+        <h1>Авторизация</h1>
+        <div class = "input1">
+            <form method="post" action="login">
+                {% csrf_token %}
+                <input type=text placeholder="Логин" name="login">
+                <input type=password placeholder="Пароль" name="password">
+                <input type=submit value="Войти">
+            </form>
+        </div>
+        <a href="/#reg">Зарегистрироваться</a>
+    </div>
+</body>
+</html>

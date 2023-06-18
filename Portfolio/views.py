@@ -135,11 +135,18 @@ def game(request, id=0):
     if id == 0 or not Game.objects.filter(id=id).exists():
         return HttpResponseRedirect('/')
     game = Game.objects.get(id=id)
+    if request.COOKIES.get("GameCaseLogin") == game.author.login:
+        is_yours = True
+    else:
+        is_yours = False
     photos = GamePhoto.objects.filter(game=game).all()
     print(settings.MEDIA_URL, photos[0].photo)
     return render(request, "game.html", context={
         "id": game.id,
+        "is_yours": is_yours,
+        "rating": int(game.rating),
         "name": game.name,
+        "repo": game.repo if game.repo.startswith("https") else f"https://{game.repo}",
         "desc": game.description,
         "author": game.author.login,
         "media_url": settings.MEDIA_URL,
@@ -163,6 +170,7 @@ def load_game(request):
         user = User.objects.get(login=login)
         game = Game(author=user,
                     name=request.POST.get("name", "UNDEFINED_NAME"),
+                    repo=request.POST.get("repo", "UNDEFINED_LINK"),
                     description=request.POST.get("desc", "UNDEFINED_DESCRIPTION"),
                     rating=0.0)
         game.save()
@@ -175,6 +183,8 @@ def load_game(request):
 def delete_game(request):
     id = request.GET.get("game_id")
     game = Game.objects.get(id=id)
+    if game.author.login != request.COOKIES.get("GameCaseLogin"):
+        return HttpResponse("Unexpected error")
     try:
         game.delete()
     except:
