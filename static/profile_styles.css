@@ -172,6 +172,16 @@ header {
     text-decoration: none;
 }
 
+.logout {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin-left: 165px;
+}
+
 footer {
     background-color: #4E4E4E;
     margin-top: 70px;

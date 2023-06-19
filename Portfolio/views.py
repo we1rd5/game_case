@@ -83,6 +83,7 @@ def logout(request):
 
 
 def profile(request, person=None):
+    print(settings.USER_PHOTOS_ROOT)
     if person is None or person == request.COOKIES.get("GameCaseLogin"):
         login = request.COOKIES.get("GameCaseLogin")
         if login is not None:
@@ -97,7 +98,8 @@ def profile(request, person=None):
                     "desc": user_desc.description,
                     "about": user_desc.about,
                     "photo": user_desc.photo,
-                    "games": games
+                    "games": games,
+                    "is_yours": True
                 })
         else:
             return HttpResponseRedirect("/login", status=303)
@@ -105,12 +107,15 @@ def profile(request, person=None):
         return HttpResponseRedirect("/")
     user = User.objects.get(login=person)
     user_desc = UserDesc.objects.get(user=user)
+    games = Game.objects.filter(author=user)
     return render(request, "profile.html", context={
         "login": user.login,
         "name": user_desc.name,
         "desc": user_desc.description,
         "about": user_desc.about,
-        "photo": user_desc.photo
+        "photo": user_desc.photo,
+        "games": games,
+        "is_yours": False
     })
 
 
@@ -127,7 +132,7 @@ def add_user_desc(request):
             desc.name = request.POST.get("name") if request.POST.get("name") != "" else "Аноним"
             desc.description = request.POST.get("desc")
             desc.about = request.POST.get("about")
-            desc.photo = request.POST.get("photo") if request.POST.get("photo") != "" else "static/default.png"
+            desc.photo = request.FILES.getlist("photo")[0] if len(request.FILES.getlist("photo")) != 0 else "static/default.png"
             desc.save()
             return HttpResponseRedirect("/profile")
         return HttpResponse("Unexpected error. Clean cookies and try again.")
@@ -142,7 +147,7 @@ def game(request, id=0):
     else:
         is_yours = False
     photos = GamePhoto.objects.filter(game=game).all()
-    print(settings.MEDIA_URL, photos[0].photo)
+    # print(settings.MEDIA_URL, photos[0].photo)
     return render(request, "game.html", context={
         "id": game.id,
         "is_yours": is_yours,
