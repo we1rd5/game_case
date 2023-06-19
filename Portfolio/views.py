@@ -90,12 +90,14 @@ def profile(request, person=None):
             if password_hash == User.objects.get(login=login).password:
                 user = User.objects.get(login=login)
                 user_desc = UserDesc.objects.get(user=user)
+                games = Game.objects.filter(author=user)
                 return render(request, "profile.html", context={
                     "login": user.login,
                     "name": user_desc.name,
                     "desc": user_desc.description,
                     "about": user_desc.about,
-                    "photo": user_desc.photo
+                    "photo": user_desc.photo,
+                    "games": games
                 })
         else:
             return HttpResponseRedirect("/login", status=303)

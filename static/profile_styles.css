@@ -1,0 +1,212 @@
+body {
+    background-color: #000000;
+    margin: 0px;
+}
+
+header {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 10px;
+    height: 120px;
+    border-bottom: 2px solid #FFFFFF;
+}
+
+.logo {
+    margin-top: 20px;
+    margin-right: 20px;
+    float: left;
+}
+
+.nav-menu {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.nav-item {
+    display: inline-block;
+    margin-right: 30px;
+    padding-top: 45px;
+    padding-bottom: 45px;
+}
+
+.nav-item a:hover {
+    color: #FE2727;
+}
+
+.nav-item a {
+    font-family: Montserrat;
+    font-weight: 300;
+    font-size: 30px;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.profile {
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.profile a {
+    font-family: Montserrat;
+    font-weight: 300;
+    font-size: 30px;
+    text-decoration: none;
+    color: #FE2727;
+}
+
+.info{
+    margin-left: 100px;
+    margin-top: 100px;
+
+}
+.photo{
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
+.settings{
+    margin-top: 0px;
+    margin-left: 180px;
+    position: absolute;
+}
+
+.info h1{
+    max-height: 40px;
+    margin-top: -375px;
+    margin-left: 650px;
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 48px;
+    text-decoration: none;
+    color: #FFFFFF;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+}
+
+.information h2{
+    max-width: 850px;
+    max-height: 400px;
+    margin-top: -300px;
+    margin-left: 750px;
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 40px;
+    color: #FFFFFF;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+}
+
+.about h1{
+    margin-left: 544px;
+    margin-right: 544px;
+    margin-top: 100px;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 30px;
+    display: flex;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.about p {
+    margin-top: 10px;
+    margin-left: 165px;
+    margin-right: 165px;
+    width: 1110px;
+    height: 600px;
+    max-width: 1200px;
+    max-height: 600px;
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 55px;
+    display: flex;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.last h1{
+    margin-top:-80px;
+    margin-left: 544px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 70px; 
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    position: absolute;
+}
+
+.mygames h1{
+    padding-left: 20px;
+    margin-top: 100px;
+    margin-left: 165px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 64px;
+    line-height: 70px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    text-align: center;
+    box-sizing: border-box;
+
+    width: 1110px;
+    height: 151px;
+
+    background: #000000;
+    border: 1px solid #FFFFFF; 
+}
+
+.mygames a {
+    text-decoration: none;
+}
+
+footer {
+    background-color: #4E4E4E;
+    margin-top: 70px;
+    padding-top: 51px;
+    padding-bottom: 51px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.left h3{
+    font-family: Montserrat;
+    font-weight: 700;
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.left p {
+    font-family: Montserrat;
+    font-weight: 400;
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.right a {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
