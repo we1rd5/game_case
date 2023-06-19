@@ -28,10 +28,12 @@
     </header>
 
     <div class="info">
-            <img class="photo" src='{% static "default.png" %}' width=380px height=380px>
+            <img class="photo" src='{{ photo }}' width=380px height=380px>
+        {% if is_yours %}
         <a href="/add_user_description">
-            <img class="settings" src='{% static "images/settings.png" %}'>
+            <img class="settings" src='{% static "images/edit.png" %}'>
         </a>
+        {% endif %}
             <h1>{{ name }}</h1>
     </div>
 
@@ -49,9 +51,11 @@
     </div>
 
     <div class="last">
+    {% if is_yours %}
         <a href="/load_game">
             <img src='{% static "images/plus.png" %}' style="margin-left: 820px;">
         </a>
+    {% endif %}
         <h1>Мои работы</h1>
     </div>
     {% for game in games %}
@@ -63,15 +67,16 @@
     </a>
     </div>
     {% endfor %}
+    <a class="logout" href="/logout">Выйти</a>
     <footer>
         <div class="left">
             <h3>Балтика</h3>
             <p>help@gmail.com</p>
         </div>
         <div class="right">
-            <a href="#">Главная</a>
-            <a href="#">О нас</a>
-            <a href="#">Войти</a>
+            <a href="/">Главная</a>
+            <a href="/team">О нас</a>
+            <a href="/login">Войти</a>
         </div>
     </footer>
 </body>

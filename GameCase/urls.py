@@ -38,6 +38,6 @@ urlpatterns = [
 urlpatterns += static(f"game/{settings.MEDIA_URL}",
                           document_root=settings.MEDIA_ROOT)
 
-
+urlpatterns += static(f"user_photos", document_root=settings.USER_PHOTOS_ROOT)
 
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
