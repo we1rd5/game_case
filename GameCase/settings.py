@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-a-1ex(!v&(mycpi$#zq^&2r4c^_c(vcqu57y^-3q6d2h3w(!)3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["we1rd.pythonanywhere.com"]
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'GameCase.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['/home/we1rd/Baltika/Portfolio/Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
