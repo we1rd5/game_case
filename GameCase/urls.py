@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import os
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
@@ -39,5 +40,9 @@ urlpatterns += static(f"game/{settings.MEDIA_URL}",
                           document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(f"user_photos", document_root=settings.USER_PHOTOS_ROOT)
+
+urlpatterns += static(f"profile/user_photos", document_root=settings.USER_PHOTOS_ROOT)
+
+urlpatterns += static(f"profile/static", document_root=os.path.join(settings.BASE_DIR, 'static/'))
 
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
