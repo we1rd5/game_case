@@ -30,7 +30,7 @@
     {% csrf_token %}
         <div class="field">
             <h3>Имя</h3>
-            <input class="name" type="text" name="name">
+            <input class="name" type="text" name="name" value="{{ name }}">
         </div>
         <div class="field">
             <h3>Описание профиля:</h3>
@@ -39,14 +39,14 @@
         </div>
         <div class="field">
             <h3>О себе:</h3>
-            <textarea name="about" maxlength="350">
+            <textarea name="about" maxlength="255">
             </textarea>
         </div>
         <div class="photo-field">
             <div class="field">
                 <h3>Фото профиля</h3>
                 <label class="input-photos">
-                    <input type="file" name="photo" accept="images">		
+                    <input type="file" name="photo" accept="images" value="{{ photo }}">
                     <span>Добавить</span>
                 </label>
             </div>

@@ -121,7 +121,14 @@ def profile(request, person=None):
 
 def add_user_desc(request):
     if request.method == "GET":
-        return render(request, "user_desc.html")
+        if request.COOKIES.get("GameCaseLogin") is not None:
+            user = User.objects.get(login=request.COOKIES.get("GameCaseLogin"))
+            user_desc = UserDesc.objects.get(user=user)
+            context = {"name": user_desc.name,
+                       "photo": user_desc.photo}
+            return render(request, "user_desc.html", context=context)
+        else:
+            return HttpResponseRedirect("/login")
     if request.method == "POST":
         login = request.COOKIES.get("GameCaseLogin")
         if login is None:
