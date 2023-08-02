@@ -1,7 +1,83 @@
-Профиль:
-<p>Логин: {{ login }}</p>
-<p>Имя: {{ name }}</p>
-<p>Описание профиля: {{ desc }}</p>
-<p>О себе: {{ about }}</p>
-<p><img src="{{ photo }}"></p>
-<a href="load_game">Добавить игру</a>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='{% static "profile_styles.css" %}'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <title>GameCase</title>
+</head>
+<body>
+    <header>
+        <img class="logo" src='{% static "images/logo.png" %}' width=38px height=69px>
+        <div class="nav-menu">
+            <div class="nav-item"><a href="/">GameCase</a></div>
+            <div class="nav-item"><a href="/team">О команде</a></div>
+            <div class="profile"><a href="/login">Профиль</a></div>
+        </div>
+    </header>
+
+    <div class="info">
+            <img class="photo" src='{{ photo }}' width=380px height=380px>
+        {% if is_yours %}
+        <a href="/add_user_description">
+            <img class="settings" src='{% static "images/edit.png" %}'>
+        </a>
+        {% endif %}
+            <h1>{{ name }}</h1>
+    </div>
+
+    <div class="information">
+        <p>
+            <h2>{{ desc }}</h2>
+        </p>
+    </div>
+
+    <div class="about">
+        <h1>Расскажу о себе</h1>
+        <h2>
+            <p>{{ about }}</p>
+        </h2>
+    </div>
+
+    <div class="last">
+    {% if is_yours %}
+        <a href="/load_game">
+            <img src='{% static "images/plus.png" %}' style="margin-left: 820px;">
+        </a>
+    {% endif %}
+        <h1>Мои работы</h1>
+    </div>
+    {% for game in games %}
+    <div class="mygames">
+    <a href="/game/{{ game.id }}">
+        <h1>
+            {{ game.name }}
+        </h1>
+    </a>
+    </div>
+    {% endfor %}
+    <a class="logout" href="/logout">Выйти</a>
+    <footer>
+        <div class="left">
+            <h3>Балтика</h3>
+            <p>help@gmail.com</p>
+        </div>
+        <div class="right">
+            <a href="/">Главная</a>
+            <a href="/team">О нас</a>
+            <a href="/login">Войти</a>
+        </div>
+    </footer>
+</body>
+</html>

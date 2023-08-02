@@ -18,7 +18,8 @@ class UserDesc(models.Model):
 class Game(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="author")
     name = models.CharField(max_length=64)
-    description = models.CharField(max_length=112)
+    description = models.TextField(max_length=512)
+    repo = models.CharField(max_length=128, default="")
     rating = models.FloatField()
 
 

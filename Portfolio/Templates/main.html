@@ -21,9 +21,9 @@
     <header>
         <img class="logo" src='{% static "images/logo.png" %}' width=38px height=69px>
         <div class="nav-menu">
-            <div class="nav-item"><a href="#">GameCase</a></div>
-            <div class="nav-item"><a href="#">О команде</a></div>
-            <div class="login"><a href="#">Войти</a></div>
+            <div class="nav-item"><div class="nav-item-active"><a href="#">GameCase</a></div></div>
+            <div class="nav-item"><a href="/team">О команде</a></div>
+            <div class="login"><a href="/login">Войти</a></div>
         </div>
     </header>
     <div class="title">
@@ -88,7 +88,7 @@
     </div>
     <div class="transition">
     </div>
-    <div class="reg-form">
+    <div class="reg-form" id="reg">
         <form method="POST" action="signup">
             {% csrf_token %}
             <h2>Регистрация</h2>
@@ -105,9 +105,9 @@
             <p>help@gmail.com</p>
         </div>
         <div class="right">
-            <a href="#">Главная</a>
-            <a href="#">О нас</a>
-            <a href="#">Войти</a>
+            <a href="/">Главная</a>
+            <a href="/team">О нас</a>
+            <a href="/login">Войти</a>
         </div>
     </footer>
 </body>

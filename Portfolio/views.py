@@ -1,15 +1,18 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-
+import pathlib
 from GameCase import settings
 from Portfolio.models import User, Game, UserDesc, GamePhoto, Rate
 import hashlib
 
 
-DEFAULT_USER_PHOTO = r"user_photos\default.png"
+DEFAULT_USER_PHOTO = str(settings.BASE_DIR / r"user_photos\default.png")
 
 
 def main_page(request):
     return render(request, "main.html")
+
+def team_page(request):
+    return render(request, "team.html")
 
 
 def signup(request):
@@ -69,7 +72,18 @@ def login(request):
         return HttpResponse(f"incorrect password {hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest()}", status=422)
 
 
+def logout(request):
+    login = request.COOKIES.get("GameCaseLogin")
+    if login is not None:
+        response = HttpResponseRedirect("/")
+        response.delete_cookie("GameCaseLogin")
+        response.delete_cookie("GameCasePasswordHash")
+        return response
+    return HttpResponseRedirect("/login")
+
+
 def profile(request, person=None):
+    print(settings.USER_PHOTOS_ROOT)
     if person is None or person == request.COOKIES.get("GameCaseLogin"):
         login = request.COOKIES.get("GameCaseLogin")
         if login is not None:
@@ -77,12 +91,15 @@ def profile(request, person=None):
             if password_hash == User.objects.get(login=login).password:
                 user = User.objects.get(login=login)
                 user_desc = UserDesc.objects.get(user=user)
+                games = Game.objects.filter(author=user)
                 return render(request, "profile.html", context={
                     "login": user.login,
                     "name": user_desc.name,
                     "desc": user_desc.description,
                     "about": user_desc.about,
-                    "photo": user_desc.photo
+                    "photo": user_desc.photo,
+                    "games": games,
+                    "is_yours": True
                 })
         else:
             return HttpResponseRedirect("/login", status=303)
@@ -90,18 +107,28 @@ def profile(request, person=None):
         return HttpResponseRedirect("/")
     user = User.objects.get(login=person)
     user_desc = UserDesc.objects.get(user=user)
+    games = Game.objects.filter(author=user)
     return render(request, "profile.html", context={
         "login": user.login,
         "name": user_desc.name,
         "desc": user_desc.description,
         "about": user_desc.about,
-        "photo": user_desc.photo
+        "photo": user_desc.photo,
+        "games": games,
+        "is_yours": False
     })
 
 
 def add_user_desc(request):
     if request.method == "GET":
-        return render(request, "add_desc.html")
+        if request.COOKIES.get("GameCaseLogin") is not None:
+            user = User.objects.get(login=request.COOKIES.get("GameCaseLogin"))
+            user_desc = UserDesc.objects.get(user=user)
+            context = {"name": user_desc.name,
+                       "photo": user_desc.photo}
+            return render(request, "user_desc.html", context=context)
+        else:
+            return HttpResponseRedirect("/login")
     if request.method == "POST":
         login = request.COOKIES.get("GameCaseLogin")
         if login is None:
@@ -109,10 +136,10 @@ def add_user_desc(request):
         password_hash = request.COOKIES.get("GameCasePasswordHash")
         if password_hash == User.objects.get(login=login).password:
             desc = UserDesc.objects.get(user=User.objects.get(login=login))
-            desc.name = request.POST.get("name", "Аноним")
-            desc.description = request.POST.get("description", "")
-            desc.about = request.POST.get("about", "")
-            desc.photo = request.POST.get("photo", DEFAULT_USER_PHOTO)
+            desc.name = request.POST.get("name") if request.POST.get("name") != "" else "Аноним"
+            desc.description = request.POST.get("desc")
+            desc.about = request.POST.get("about")
+            desc.photo = request.FILES.getlist("photo")[0] if len(request.FILES.getlist("photo")) != 0 else "static/default.png"
             desc.save()
             return HttpResponseRedirect("/profile")
         return HttpResponse("Unexpected error. Clean cookies and try again.")
@@ -122,11 +149,18 @@ def game(request, id=0):
     if id == 0 or not Game.objects.filter(id=id).exists():
         return HttpResponseRedirect('/')
     game = Game.objects.get(id=id)
+    if request.COOKIES.get("GameCaseLogin") == game.author.login:
+        is_yours = True
+    else:
+        is_yours = False
     photos = GamePhoto.objects.filter(game=game).all()
-    print(settings.MEDIA_URL, photos[0].photo)
+    # print(settings.MEDIA_URL, photos[0].photo)
     return render(request, "game.html", context={
         "id": game.id,
+        "is_yours": is_yours,
+        "rating": int(game.rating),
         "name": game.name,
+        "repo": game.repo if game.repo.startswith("https") else f"https://{game.repo}",
         "desc": game.description,
         "author": game.author.login,
         "media_url": settings.MEDIA_URL,
@@ -150,6 +184,7 @@ def load_game(request):
         user = User.objects.get(login=login)
         game = Game(author=user,
                     name=request.POST.get("name", "UNDEFINED_NAME"),
+                    repo=request.POST.get("repo", "UNDEFINED_LINK"),
                     description=request.POST.get("desc", "UNDEFINED_DESCRIPTION"),
                     rating=0.0)
         game.save()
@@ -162,6 +197,8 @@ def load_game(request):
 def delete_game(request):
     id = request.GET.get("game_id")
     game = Game.objects.get(id=id)
+    if game.author.login != request.COOKIES.get("GameCaseLogin"):
+        return HttpResponse("Unexpected error")
     try:
         game.delete()
     except:
@@ -178,7 +215,6 @@ def rate_game(request):
     if Rate.objects.filter(user_login=request.COOKIES.get("GameCaseLogin"), game=game).exists():
         rate_model = Rate.objects.get(user_login=request.COOKIES.get("GameCaseLogin"), game=game)
         game.rating -= rate_model.value
-        print("оценка есть")
     else:
         rate_model = Rate(game=game, user_login=request.COOKIES.get("GameCaseLogin"), value=0)
     if rate == "like":
